@@ -7,7 +7,7 @@ const tasks = [
   {
     task: 'Organize Garage',
     id: 1528817077286,
-    completed: true
+    completed: false
   },
   {
     task: 'Good Garage',
@@ -18,8 +18,6 @@ const tasks = [
 
 class App extends React.Component {
   // you will need a place to store your state in this component.
-
-
 
   constructor() {
     super();
@@ -46,35 +44,38 @@ class App extends React.Component {
 
   lineThroughTask = (completedTask) => {
 
-    // this.setState(
-    //   {
-    //     tasks: [...this.state.tasks]
-    //   }
-    // )
-    console.log(completedTask)
-    this.state.tasks.map(task => {
+
+    const completed = this.state.tasks.map((task, index) => {
       if (task.task === completedTask) {
-        console.log(task.task)
-
         task.completed = !task.completed;
-        console.log(`task.completed ${task.completed}`)
       }
+      return task;
     })
+    this.setState(
+      {
+        tasks: completed
+      }
+    )
 
-    console.log(`this.state.tasks[0].completed ${this.state.tasks[0].completed}`)
   };
 
 
+  clearCompleted = () => {
+    const notCompleted = this.state.tasks.filter((task) => {
+      return task.completed === false;
+    })
 
 
-  // this.state.tasks[0].completed = !this.state.tasks[0].completed;
-  // console.log(this.state.tasks[0].completed);
+    this.setState(
+      {
+        tasks: notCompleted
+      }
+    )
 
-  // this.setState(
-  //   {
-  //     tasks: [...this.state.tasks, editTask],
-  //   }
-  // )
+
+  }
+
+
 
   // design `App` to be the parent component of your application.
   // this component is going to take care of state, and any change handlers you need to work with your state
@@ -82,7 +83,7 @@ class App extends React.Component {
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
-        <TodoForm inputedTask={this.addTask} />
+        <TodoForm inputedTask={this.addTask} clearCompleted={this.clearCompleted} />
         <TodoList tasks={this.state.tasks} lineThroughTask={this.lineThroughTask} />
       </div>
     );

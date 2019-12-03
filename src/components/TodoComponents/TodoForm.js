@@ -33,7 +33,7 @@ export default class TodoForm extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.props.inputedTask(this.state.input);
+        if (this.state.input !== '') { this.props.inputedTask(this.state.input); }
         this.setState({
             input: ''
         });
@@ -43,9 +43,9 @@ export default class TodoForm extends React.Component {
 
         return (
             <form onSubmit={this.handleSubmit}>
-                <input placeholder="change state" onChange={this.changeHandler} />
+                <input placeholder="change state" value={this.state.input} onChange={this.changeHandler} />
                 <button >Add Todo</button>
-                <button >Clear Completed</button>
+                <button onClick={this.props.clearCompleted} >Clear Completed</button>
             </form>
         )
     }
